@@ -1,0 +1,4 @@
+{
+  "name":"课铃 · 我的课程闹钟","short_name":"课铃","description":"提前响铃、可导入系统日历的个人课表","start_url":"./","display":"standalone","background_color":"#0c0f15","theme_color":"#10131a","lang":"zh-CN","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
+
