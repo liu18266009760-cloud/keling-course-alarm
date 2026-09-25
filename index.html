@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#10131a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="课铃" />
+  <meta name="description" content="能提前响铃、可导入系统日历的个人课表。" />
+  <title>课铃 · 我的课程闹钟</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">课</span><span>课铃</span></div>
+    <button class="icon-btn" id="installBtn">安装到 iPhone</button>
+  </header>
+
+  <main>
+    <section class="now-card" aria-labelledby="nowTitle">
+      <div class="eyebrow" id="todayLabel">今天</div>
+      <h1 id="nowTitle">下一节课</h1>
+      <div id="nextCourse" class="next-course"></div>
+      <div class="actions">
+        <button class="primary" id="notifyBtn">开启提醒</button>
+        <button class="secondary" id="testBtn">试听铃声</button>
+      </div>
+      <p class="permission-note" id="permissionNote">打开页面时可响铃；导入日历后，关闭页面也能由系统提醒。</p>
+    </section>
+
+    <section class="schedule-section" aria-labelledby="scheduleTitle">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">每周重复</p>
+          <h2 id="scheduleTitle">我的课表</h2>
+        </div>
+        <button class="add-btn" id="addBtn"><span>＋</span> 添加课程</button>
+      </div>
+      <div class="day-tabs" id="dayTabs" role="tablist" aria-label="选择星期"></div>
+      <div class="course-list" id="courseList"></div>
+      <button class="calendar-btn" id="calendarBtn">
+        <span class="calendar-icon">▦</span>
+        <span><strong>导入手机日历</strong><small>自动设置提前 20 分钟提醒</small></span>
+        <span aria-hidden="true">→</span>
+      </button>
+    </section>
+  </main>
+
+  <dialog id="courseDialog">
+    <form method="dialog" id="courseForm">
+      <div class="dialog-head"><h2 id="dialogTitle">添加课程</h2><button value="cancel" class="close-btn" aria-label="关闭">×</button></div>
+      <input type="hidden" id="courseId" />
+      <label>课程名称<input id="courseName" required maxlength="24" placeholder="例如：高等数学" /></label>
+      <div class="form-row">
+        <label>星期<select id="courseDay" required></select></label>
+        <label>上课时间<input id="courseTime" type="time" required /></label>
+      </div>
+      <label>教室（选填）<input id="courseRoom" maxlength="24" placeholder="例如：教学楼 A203" /></label>
+      <label>提前提醒
+        <select id="courseAdvance">
+          <option value="10">10 分钟</option><option value="15">15 分钟</option>
+          <option value="20" selected>20 分钟</option><option value="30">30 分钟</option><option value="45">45 分钟</option>
+        </select>
+      </label>
+      <div class="dialog-actions"><button value="cancel" class="secondary">取消</button><button value="default" class="primary" id="saveBtn">保存课程</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="alarmDialog" class="alarm-dialog">
+    <div class="alarm-content">
+      <div class="ring-pulse">🔔</div><p class="eyebrow">马上要上课了</p>
+      <h2 id="alarmName">课程提醒</h2><p id="alarmMeta"></p>
+      <button class="stop-btn" id="stopAlarmBtn">停止响铃</button>
+    </div>
+  </dialog>
+
+  <dialog id="installDialog">
+    <div class="install-guide">
+      <div class="dialog-head"><h2>安装到 iPhone</h2><button class="close-btn" id="closeInstallBtn" aria-label="关闭">×</button></div>
+      <ol>
+        <li><span>1</span><div>用 <strong>Safari</strong> 打开本页</div></li>
+        <li><span>2</span><div>点击底部的<strong>分享按钮</strong> <b class="share-symbol">⇧</b></div></li>
+        <li><span>3</span><div>选择<strong>“添加到主屏幕”</strong></div></li>
+        <li><span>4</span><div>回到课表，点<strong>“导入手机日历”</strong>，允许系统提前 20 分钟提醒</div></li>
+      </ol>
+      <p class="ios-note">响铃要稳定：请勿开启专注模式，并在“设置 → 通知 → 日历”中允许声音。</p>
+      <button class="primary full-btn" id="gotItBtn">知道了</button>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
+
